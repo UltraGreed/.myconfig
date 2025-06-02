@@ -1,0 +1,12 @@
+autorandr --change &
+autocutsel -fork -selection CLIPBOARD &
+autocutsel -fork -selection PRIMARY &
+python .local/scripts/wallpaper_change.py &
+xcompmgr -nf -I 0.05 -O 0.05 &
+xset r rate 250 50 &
+syndaemon -i 0.2 -K -R -d -t &
+/usr/libexec/polkit-mate-authentication-agent-1 &
+conky -q -c $HOME/.config/conky/conky_main.conf &
+conky -q -c $HOME/.config/conky/conky_wifi.conf &
+conky -q -c $HOME/.config/conky/conky_qlop.conf &
+$HOME/Applications/nekoray/launcher &
