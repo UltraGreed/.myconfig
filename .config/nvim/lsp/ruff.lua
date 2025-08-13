@@ -1,23 +1,15 @@
-require('mason').setup({})
-require('mason-lspconfig').setup({
-    handlers = {
-        function(server_name)
-            require('lspconfig')[server_name].setup({})
-        end,
-        ['clangd'] = function()
-            require('lspconfig').clangd.setup({
-                -- cmd = { "clangd", "--clang-tidy", },
-            })
-        end,
-        ['ruff'] = function()
-            require('lspconfig').ruff.setup({
-                init_options = {
-                    settings = {
-                        configuration = '~/.config/lsp/ruff.toml'
-                    }
-                }
-            })
-        end,
+return {
+    cmd = { 'ruff' },
+    filetypes = { 'py' },
+    init_options = {
+        settings = {
+            configuration = '~/.config/lsp/ruff.toml'
+        }
+    },
+    root_markers = { 'pyproject.toml', '.git' }
+}
+
+
         -- ['basedpyright'] = function()
         --     require('lspconfig').basedpyright.setup({
         --         settings = {
@@ -116,5 +108,3 @@ require('mason-lspconfig').setup({
         --         }
         -- })
         -- end
-    },
-})

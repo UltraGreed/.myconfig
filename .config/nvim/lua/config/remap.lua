@@ -60,36 +60,38 @@ vim.keymap.set("n", "<leader>f", "zA", { silent = true })
 
 -- Execute python/zig code from current tmux pane in pane with index 1
 vim.keymap.set('n', '<leader>r', function()
-  vim.cmd('write')  -- Save the file
-  local file = vim.fn.expand("%")
-  local ext = vim.fn.expand("%:e")  -- Get file extension
-  local cmd
-  if ext == 'py' then
-    cmd = 'tmux send-keys -t 1 Enter "python ' .. file .. '" Enter'
-  elseif ext == 'zig' then
-    cmd = 'tmux send-keys -t 1 Enter "zig build run" Enter'
-  else
-    print("Unsupported file type: " .. ext)
-    return
-  end
+    vim.cmd('write')               -- Save the file
+    local file = vim.fn.expand("%")
+    local ext = vim.fn.expand("%:e") -- Get file extension
+    local cmd
+    if ext == 'py' then
+        cmd = 'tmux send-keys -t 1 Enter "python ' .. file .. '" Enter'
+    elseif ext == 'tex' then
+        cmd = 'tmux send-keys -t 1 Enter "xelatex --shell-escape ' .. file .. '" Enter'
+    elseif ext == 'zig' then
+        cmd = 'tmux send-keys -t 1 Enter "zig build run" Enter'
+    else
+        print("Unsupported file type: " .. ext)
+        return
+    end
 
-  vim.fn.system(cmd)
+    vim.fn.system(cmd)
 end, { noremap = true, silent = true })
 
 -- Test zig code from current tmux pane in pane with index 1
 vim.keymap.set('n', '<leader>t', function()
-  vim.cmd('write')  -- Save the file
-  local file = vim.fn.expand("%")
-  local ext = vim.fn.expand("%:e")  -- Get file extension
-  local cmd
-  if ext == 'zig' then
-    cmd = 'tmux send-keys -t 1 Enter "zig build test" Enter '
-  else
-    print("Unsupported file type: " .. ext)
-    return
-  end
+    vim.cmd('write')               -- Save the file
+    local file = vim.fn.expand("%")
+    local ext = vim.fn.expand("%:e") -- Get file extension
+    local cmd
+    if ext == 'zig' then
+        cmd = 'tmux send-keys -t 1 Enter "zig build test" Enter '
+    else
+        print("Unsupported file type: " .. ext)
+        return
+    end
 
-  vim.fn.system(cmd)
+    vim.fn.system(cmd)
 end, { noremap = true, silent = true })
 
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })

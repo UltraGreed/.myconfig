@@ -7,7 +7,8 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = false
 
-vim.opt.wrap = false
+vim.opt.wrap = true
+vim.opt.linebreak = true
 
 -- vim.opt.swapfile = false
 -- vim.opt.backup = false
@@ -25,7 +26,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "100"
+vim.opt.colorcolumn = "121"
 
 vim.g.mapleader = " "
 
