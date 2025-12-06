@@ -1,5 +1,7 @@
-autorandr --change &
-python .local/scripts/wallpaper_change.py &
+xrandr --output DP-2 --off
+feh --bg-scale $HOME/.myconfig/wallpapers/pc.png 
+xrandr --output HDMI-0 --auto --primary --output DP-2 --auto --right-of HDMI-0 
+
 xcompmgr -nf -I 0.05 -O 0.05 &
 xset r rate 250 50 &
 syndaemon -i 0.2 -K -R -d -t &
