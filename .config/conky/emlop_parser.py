@@ -17,7 +17,7 @@ command = "emlop p -s t --duration secs"
 
 emlop_anwer = subprocess.run(command, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.decode()
 
-if emlop_anwer != "No pretended merge found\n":
+if emlop_anwer.startswith('Estimate for'):
     words = emlop_anwer.split()
 
     seconds = words[-4]

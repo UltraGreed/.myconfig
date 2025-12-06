@@ -18,7 +18,7 @@ function tmuxpy --description 'Creates tmux setup with 3 panes, with venvs, read
 
     # Resize the first (left) pane to 100 characters wide
     # (I have no idea why, but sometimes sizing is not accurate by ~35 pixels)
-    tmux resize-pane -t 0 -x 105
+    tmux resize-pane -t 0 -x 126
 
     for i in (seq 3)
         tmux send-keys -t (math $i - 1) 'venv' Enter

@@ -80,4 +80,8 @@ return require('packer').startup(function(use)
         'untitled-ai/jupyter_ascending.vim'
     }
 
+    use {
+        'lambdalisue/vim-suda'
+    }
+
 end)
