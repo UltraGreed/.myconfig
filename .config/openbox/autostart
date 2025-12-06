@@ -1,6 +1,4 @@
 autorandr --change &
-autocutsel -fork -selection CLIPBOARD &
-autocutsel -fork -selection PRIMARY &
 python .local/scripts/wallpaper_change.py &
 xcompmgr -nf -I 0.05 -O 0.05 &
 xset r rate 250 50 &
