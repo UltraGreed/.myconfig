@@ -1,4 +1,7 @@
 return {
-    cmd = { "clangd --clang-tidy" },
+    cmd = {
+        "clangd",
+        "--clang-tidy",
+    },
     filetypes = { 'c', 'cpp', }
 }

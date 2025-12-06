@@ -21,10 +21,12 @@ vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
 -- delete without overwriting buffer
-vim.keymap.set("n", "<leader>d", "\"_d")
-vim.keymap.set("v", "<leader>d", "\"_d")
+-- vim.keymap.set("n", "<leader>d", "\"_d")
+-- vim.keymap.set("v", "<leader>d", "\"_d")
 
+-- handle :W missclick as :w
 vim.api.nvim_create_user_command("W", 'w', {})
+
 -- disables Q - Ex mode (what?)
 vim.keymap.set("n", "Q", "<nop>")
 
@@ -38,14 +40,21 @@ vim.keymap.set("n", "q:", "<nop>")
 vim.keymap.set("n", "q/", "<nop>")
 vim.keymap.set("n", "q?", "<nop>")
 
+-- disable annoying <F1> help menu (escape missclick)
+vim.keymap.set({ 'n', 'v', 'i' }, '<F1>', "<nop>")
+
 -- tmux call
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+-- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- quickfix list
+-- vim.keymap.set("n", "<CR>", "<CR>", { noremap = true })
+-- vim.keymap.set("n", "<Tab>", "<Tab>", { noremap = true })
 vim.keymap.set("n", "<C-m>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-i>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>m", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>i", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<leader>q", "<cmd>ccl<CR>")
+
 
 -- substitute on space-s
 vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
@@ -55,41 +64,75 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 -- fold/unfold under cursor
 vim.keymap.set("n", "<leader>f", "zA", { silent = true })
 
+-- something-something I don't know therefore I hate it
+vim.keymap.set("n", "<C-f>", "<nop>")
+
+-- disable highlighting of last search
+vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", { silent = true })
+
 -- delete last word
 -- vim.keymap.set("i", "<C-H>", "<C-w>", { silent = true})
 
 -- Execute python/zig code from current tmux pane in pane with index 1
 vim.keymap.set('n', '<leader>r', function()
-    vim.cmd('write')               -- Save the file
+    vim.cmd('write')                 -- Save the file
     local file = vim.fn.expand("%")
     local ext = vim.fn.expand("%:e") -- Get file extension
     local cmd
     if ext == 'py' then
-        cmd = 'tmux send-keys -t 1 Enter "python ' .. file .. '" Enter'
+        cmd = 'tmux send-keys -t 1 C-c "python ' .. file .. '" Enter'
     elseif ext == 'tex' then
-        cmd = 'tmux send-keys -t 1 Enter "xelatex --shell-escape ' .. file .. '" Enter'
-    elseif ext == 'zig' then
-        cmd = 'tmux send-keys -t 1 Enter "zig build run" Enter'
+        cmd = 'tmux send-keys -t 1 C-c "xelatex --shell-escape ' .. file .. '" Enter'
+    elseif ext == 'zig' or ext == 'zon' then
+        cmd = 'tmux send-keys -t 1 C-c "zig build run" Enter'
+    elseif ext == 'c' or ext == 'h' then
+        cmd = 'tmux send-keys -t 1 C-c "meson compile -C build && ./build/main" Enter'
     else
         print("Unsupported file type: " .. ext)
         return
     end
+
+    local clear_cmd = 'tmux send-keys -t 1 -X cancel'
+    vim.fn.system(clear_cmd)
 
     vim.fn.system(cmd)
 end, { noremap = true, silent = true })
 
 -- Test zig code from current tmux pane in pane with index 1
 vim.keymap.set('n', '<leader>t', function()
-    vim.cmd('write')               -- Save the file
+    vim.cmd('write')                 -- Save the file
     local file = vim.fn.expand("%")
     local ext = vim.fn.expand("%:e") -- Get file extension
     local cmd
-    if ext == 'zig' then
-        cmd = 'tmux send-keys -t 1 Enter "zig build test" Enter '
+    if ext == 'zig' or ext == 'zon' then
+        cmd = 'tmux send-keys -R -t 1 "zig build test" Enter '
+    elseif ext == 'c' or ext == 'h' then
+        cmd = 'tmux send-keys -t 1 C-c "meson test" Enter'
     else
         print("Unsupported file type: " .. ext)
         return
     end
+
+    local clear_cmd = 'tmux send-keys -t 1 -X cancel'
+    vim.fn.system(clear_cmd)
+
+    vim.fn.system(cmd)
+end, { noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>d', function()
+    vim.cmd('write')                 -- Save the file
+    local file = vim.fn.expand("%")
+    local ext = vim.fn.expand("%:e") -- Get file extension
+    local cmd
+    if ext == 'c' or ext == 'h' then
+        cmd = 'tmux send-keys -t 1 C-c "meson compile -C build && gdb ./build/main" Enter'
+    else
+        print("Unsupported file type: " .. ext)
+        return
+    end
+
+    local clear_cmd = 'tmux send-keys -t 1 -X cancel'
+    vim.fn.system(clear_cmd)
 
     vim.fn.system(cmd)
 end, { noremap = true, silent = true })

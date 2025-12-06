@@ -10,4 +10,4 @@ esac
 
 # Use fish in place of bash
 # keep this line at the bottom of ~/.bashrc
-[ -x /bin/fish ] && SHELL=/bin/fish exec fish
+[ -x /usr/bin/fish ] && SHELL=/usr/bin/fish exec fish

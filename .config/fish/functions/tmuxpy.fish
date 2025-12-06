@@ -1,5 +1,5 @@
 function tmuxpy --description 'Creates tmux setup with 3 panes, with venvs, ready to execute'
-    set base_name "python_session"
+    set base_name "python session $(basename $PWD)"
     set counter 0
     while tmux has-session -t $base_name$counter 2> /dev/null
         set counter (math $counter + 1)

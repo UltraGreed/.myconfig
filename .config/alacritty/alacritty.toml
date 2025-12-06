@@ -57,3 +57,8 @@ title = "Alacritty"
 [window.dimensions]
 columns = 80
 lines = 24
+
+# [keyboard]
+# bindings = [
+#     { key = 'M', mods = 'Control', chars = '<Control>-M' },
+# ]

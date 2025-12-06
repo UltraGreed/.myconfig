@@ -8,5 +8,5 @@ syndaemon -i 0.2 -K -R -d -t &
 /usr/libexec/polkit-mate-authentication-agent-1 &
 conky -q -c $HOME/.config/conky/conky_main.conf &
 conky -q -c $HOME/.config/conky/conky_wifi.conf &
-conky -q -c $HOME/.config/conky/conky_qlop.conf &
+# conky -q -c $HOME/.config/conky/conky_qlop.conf &
 $HOME/Applications/nekoray/launcher &
