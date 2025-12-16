@@ -51,8 +51,8 @@ vim.keymap.set({ 'n', 'v', 'i' }, '<F1>', "<nop>")
 -- vim.keymap.set("n", "<Tab>", "<Tab>", { noremap = true })
 vim.keymap.set("n", "<C-m>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-i>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>m", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>i", "<cmd>lprev<CR>zz")
+-- vim.keymap.set("n", "<leader>m", "<cmd>lnext<CR>zz")
+-- vim.keymap.set("n", "<leader>i", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>q", "<cmd>ccl<CR>")
 
 

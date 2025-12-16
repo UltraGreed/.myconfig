@@ -19,7 +19,7 @@ qlop_anwer = subprocess.run(command, shell=True, executable='/bin/bash', stdout=
 
 if qlop_anwer != '\n':
     words = qlop_anwer.split()
-    
+
     seconds_eta = words[-1]
 
     time_eta = format_time(int(seconds_eta)) if seconds_eta != 'unknown' else 'unknown'

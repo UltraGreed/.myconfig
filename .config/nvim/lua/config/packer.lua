@@ -84,4 +84,21 @@ return require('packer').startup(function(use)
         'lambdalisue/vim-suda'
     }
 
+    use {
+        '3rd/image.nvim',
+        -- tag = 'v1.3.0',
+        run = false,
+        config = function ()
+            require('image').setup({
+                processor = "magick_cli"
+            })
+        end
+    }
+
+    use {
+        'benlubas/molten-nvim',
+        requires = { { '3rd/image.nvim' } },
+        run = ':UpdateRemotePlugins',
+    }
+
 end)
