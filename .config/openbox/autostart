@@ -11,3 +11,4 @@ conky -q -c $HOME/.config/conky/conky_qlop.conf &
 easyeffects --gapplication-service &
 Throne &
 syncthing &
+sunshine &
