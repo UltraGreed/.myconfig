@@ -9,7 +9,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.8',
         -- or                            , branch = '0.1.x',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+        requires = { 'nvim-lua/plenary.nvim' }
     }
     use {
         "ellisonleao/gruvbox.nvim",
@@ -40,7 +40,10 @@ return require('packer').startup(function(use)
                 dim_inactive = false,
                 transparent_mode = false,
             })
-            vim.cmd('colorscheme gruvbox')
+            vim.cmd.colorscheme('gruvbox')
+            local string_hl = vim.api.nvim_get_hl(0, { name = "String", link = false })
+            string_hl.italic = false
+            vim.api.nvim_set_hl(0, "@markup.raw.block.markdown", string_hl)
         end
     }
 
@@ -88,7 +91,7 @@ return require('packer').startup(function(use)
         '3rd/image.nvim',
         -- tag = 'v1.3.0',
         run = false,
-        config = function ()
+        config = function()
             require('image').setup({
                 processor = "magick_cli"
             })
@@ -97,8 +100,20 @@ return require('packer').startup(function(use)
 
     use {
         'benlubas/molten-nvim',
-        requires = { { '3rd/image.nvim' } },
+        requires = { '3rd/image.nvim' },
         run = ':UpdateRemotePlugins',
     }
 
+    use {
+        'quarto-dev/quarto-nvim',
+        requires = {
+            '3rd/image.nvim',
+            "jmbuhr/otter.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    }
+
+    use {
+        'GCBallesteros/jupytext.nvim',
+    }
 end)
