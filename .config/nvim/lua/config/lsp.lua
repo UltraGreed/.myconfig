@@ -4,19 +4,20 @@ vim.lsp.enable('clangd')
 -- vim.lsp.enable('basedpyright')
 -- vim.lsp.enable('pyright')
 vim.lsp.enable('zls')
--- vim.lsp.enable('ty')
-vim.lsp.enable('pyrefly')
+vim.lsp.enable('ty')
+-- vim.lsp.enable('pyrefly')
+vim.lsp.enable('termux_language_server')
 
 -- vim.lsp.inlay_hint.enable(true)
 
 local function has_float()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local cfg = vim.api.nvim_win_get_config(win)
-    if cfg and cfg.relative ~= '' then
-      return true
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local cfg = vim.api.nvim_win_get_config(win)
+        if cfg and cfg.relative ~= '' then
+            return true
+        end
     end
-  end
-  return false
+    return false
 end
 
 local floating_opts = {
@@ -40,28 +41,100 @@ vim.keymap.del('n', 'gra')
 vim.keymap.del('n', 'grr')
 vim.keymap.del('n', 'gri')
 vim.keymap.del('n', 'grt')
+vim.keymap.del('n', 'gO')
+
+local function gd_jump_first()
+    local params = vim.lsp.util.make_position_params(0, "utf-16")
+
+    vim.lsp.buf_request(0, "textDocument/definition", params, function(err, locations, ctx, _)
+        if err then
+            vim.notify(err.message or tostring(err), vim.log.levels.ERROR)
+            return
+        end
+
+        if locations == nil then
+            return
+        end
+
+        if #locations == 1 then
+            vim.lsp.util.show_document(locations[1], "utf-16", { focus = true })
+            return
+        end
+
+        local items = vim.lsp.util.locations_to_items(locations, "utf-16")
+        vim.fn.setqflist({}, " ", { title = "LSP definitions", items = items })
+
+        vim.lsp.util.show_document(locations[1], "utf-16", { focus = true })
+
+        local win = vim.api.nvim_get_current_win()
+
+        vim.cmd.copen(math.max(5, math.min(10, #locations)))
+
+        vim.api.nvim_set_current_win(win)
+        vim.cmd.normal({ 'zz', bang = true })
+    end)
+end
+
+vim.keymap.set("n", "gd", gd_jump_first, { desc = "LSP definition: jump first, keep qf for multiple" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
     callback = function(event)
-        local opts = { buffer = event.buf }
-
         -- these will be buffer-local keybindings
         -- because they only work if you have an active language server
 
-        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-        vim.keymap.set('n', 'gn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set({ 'n', 'x' }, '<leader>o', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-        vim.keymap.set('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+        -- vim.keymap.set('n', 'K',
+        --     '<cmd>lua vim.lsp.buf.hover()<cr>',
+        --     { buffer = event.buf, desc = "Show docs" }
+        -- )
+        -- vim.keymap.set('n', 'gd',
+        --     '<cmd>lua vim.lsp.buf.definition()<cr>',
+        --     { buffer = event.buf, desc = "Go to definition" }
+        -- )
+        vim.keymap.set("n", "gd", gd_jump_first, { silent = true })
 
-        vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help(floating_opts) end, opts)
-        vim.keymap.set('n', 'K', function () vim.lsp.buf.signature_help(floating_opts) end, opts)
+        vim.keymap.set('n', 'gD',
+            '<cmd>lua vim.lsp.buf.declaration()<cr>',
+            { buffer = event.buf, desc = "Go to declaration" }
+        )
+        vim.keymap.set('n', 'gi',
+            '<cmd>lua vim.lsp.buf.implementation()<cr>',
+            { buffer = event.buf, desc = "Go to implementation" }
+        )
+        vim.keymap.set('n', 'go',
+            '<cmd>lua vim.lsp.buf.type_definition()<cr>',
+            { buffer = event.buf, desc = "Go to type definition" }
+        )
+        vim.keymap.set('n', 'gr',
+            '<cmd>lua vim.lsp.buf.references()<cr>',
+            { buffer = event.buf, desc = "Go to references" }
+        )
+        -- vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { buffer = event.buf, desc = "Show signature" })
+        vim.keymap.set('n', 'gn',
+            '<cmd>lua vim.lsp.buf.rename()<cr>',
+            { buffer = event.buf, desc = "Rename" }
+        )
+        vim.keymap.set({ 'n', 'x' }, '<leader>o',
+            '<cmd>lua vim.lsp.buf.format({async = true})<cr>',
+            { buffer = event.buf, desc = "Format file" }
+        )
+        vim.keymap.set('n', 'ga',
+            '<cmd>lua vim.lsp.buf.code_action()<cr>',
+            { buffer = event.buf, desc = "Show code actions" }
+        )
+
+        vim.keymap.set('i', '<C-s>',
+            function()
+                vim.lsp.buf.signature_help(floating_opts)
+            end,
+            { buffer = event.buf, desc = "Show docs" }
+        )
+        vim.keymap.set('n', 'K',
+            function()
+                vim.lsp.buf.signature_help(floating_opts)
+            end,
+            { buffer = event.buf, desc = "Show docs" }
+        )
 
         local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
         if client.name == 'ty' then

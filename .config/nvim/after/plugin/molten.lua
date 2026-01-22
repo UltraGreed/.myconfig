@@ -1,5 +1,5 @@
-vim.keymap.set("n", "<leader>e", ":MoltenEvaluateOperator<CR>", { silent = true, desc = "run operator selection" })
-vim.keymap.set("n", "<leader>ms", ":noautocmd MoltenEnterOutput<CR>", { silent = true, desc = "show/enter output" })
+vim.keymap.set("n", "<leader>me", ":MoltenEvaluateOperator<CR>", { silent = true, desc = "Run operator selection (molten)" })
+vim.keymap.set("n", "<leader>ms", ":noautocmd MoltenEnterOutput<CR>", { silent = true, desc = "Show/enter output (molten)" })
 
 -- vim.keymap.set("n", "<leader>mi", ":MoltenInit<CR>", { silent = true, desc = "Initialize the plugin" })
 --
@@ -19,3 +19,4 @@ vim.g.molten_auto_image_popup = true
 vim.g.molten_auto_open_output = false
 vim.g.molten_virt_text_output = true
 vim.g.molten_virt_lines_off_by_1 = true
+vim.g.molten_image_location = "float"

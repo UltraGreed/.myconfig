@@ -47,10 +47,10 @@ return require('packer').startup(function(use)
         end
     }
 
-    use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use('theprimeagen/harpoon')
-    use('mbbill/undotree')
-    use('tpope/vim-fugitive')
+    use { 'nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' } }
+    use 'theprimeagen/harpoon'
+    use 'mbbill/undotree'
+    use 'tpope/vim-fugitive'
 
     use {
         'ivanesmantovich/xkbswitch.nvim',
@@ -59,13 +59,11 @@ return require('packer').startup(function(use)
         end
     }
 
-    use {
-        'folke/zen-mode.nvim'
-    }
+    use 'folke/zen-mode.nvim'
 
     -- use { "nvim-treesitter/nvim-treesitter-context", }
 
-    use { 'eandrju/cellular-automaton.nvim' }
+    use 'eandrju/cellular-automaton.nvim'
 
     use {
         "folke/trouble.nvim",
@@ -79,9 +77,7 @@ return require('packer').startup(function(use)
         end
     }
 
-    use {
-        'lambdalisue/vim-suda'
-    }
+    use 'lambdalisue/vim-suda'
 
     use {
         '3rd/image.nvim',
@@ -109,7 +105,24 @@ return require('packer').startup(function(use)
         },
     }
 
+    use 'GCBallesteros/jupytext.nvim'
+
+    use 'neovim/nvim-lspconfig'
+
     use {
-        'GCBallesteros/jupytext.nvim',
+        'folke/which-key.nvim',
+        requires = {
+            "nvim-mini/mini.icons",
+            'nvim-tree/nvim-web-devicons',
+        }
     }
+
+    use {
+        'nvim-mini/mini.icons',
+        config = function()
+            require("mini.icons").setup()
+        end,
+    }
+
+    use 'nvim-tree/nvim-web-devicons'
 end)

@@ -27,13 +27,13 @@ quarto.setup({
 })
 
 local runner = require("quarto.runner")
-vim.keymap.set("n", "<leader>qc", runner.run_cell, { desc = "run cell", silent = true })
-vim.keymap.set("n", "<leader>qa", runner.run_above, { desc = "run cell and above", silent = true })
-vim.keymap.set("n", "<leader>qA", runner.run_all, { desc = "run all cells", silent = true })
-vim.keymap.set("n", "<leader>ql", runner.run_line, { desc = "run line", silent = true })
-vim.keymap.set("v", "<leader>qr", runner.run_range, { desc = "run visual range", silent = true })
+vim.keymap.set("n", "<leader>mc", runner.run_cell, { desc = "Run cell (Quarto)", silent = true })
+vim.keymap.set("n", "<leader>ma", runner.run_above, { desc = "Run cell and above (Quarto)", silent = true })
+vim.keymap.set("n", "<leader>mA", runner.run_all, { desc = "Run all cells (Quarto)", silent = true })
+vim.keymap.set("n", "<leader>ml", runner.run_line, { desc = "Run line (Quarto)", silent = true })
+vim.keymap.set("v", "<leader>mr", runner.run_range, { desc = "Run visual range (Quarto)", silent = true })
 
-vim.keymap.set("n", "<leader>qi", "i```python<CR>```<Esc>O", { desc = "insert python cell", silent = true })
+vim.keymap.set("n", "<leader>mi", "i```python<CR>```<Esc>O", { desc = "Insert python cell (Quarto)", silent = true })
 
 
 -- automatically import output chunks from a jupyter notebook
