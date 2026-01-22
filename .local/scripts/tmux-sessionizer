@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/Work ~/.local ~/.config -mindepth 1 -maxdepth 3 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+ctr=2
+session_name=$selected_name
+while tmux has-session -t=$session_name; do
+    session_name=$selected_name$ctr
+    ctr=$((ctr+1))
+done
+
+tmux new-session -ds $session_name -c $selected
+
+tmux switch-client -t $session_name
+
