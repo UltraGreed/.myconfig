@@ -1,5 +1,15 @@
 --  explore command on space-pv
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {desc = "Explore filesystem"})
+local function close_floats()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "win" then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
+end
+vim.keymap.set("n", "<leader>pv", function()
+    close_floats()
+    vim.cmd.Ex()
+end, { desc = "Explore filesystem" })
 
 -- allows to drag selection up and down with J and K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -60,6 +70,10 @@ vim.keymap.set("n", "<leader>q", "<cmd>ccl<CR>", { desc = "Close quickfix list" 
 
 -- substitute on space-s
 vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Substitute word" })
+
+-- open man page
+vim.keymap.set("n", "<leader>i", ":hide Man <C-r><C-w><CR>", { desc = "Show man page" })
+
 -- chmod +x on space-x
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" })
 

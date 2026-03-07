@@ -7,6 +7,7 @@ vim.lsp.enable('zls')
 vim.lsp.enable('ty')
 -- vim.lsp.enable('pyrefly')
 vim.lsp.enable('termux_language_server')
+vim.lsp.enable('texlab')
 
 -- vim.lsp.inlay_hint.enable(true)
 
@@ -148,7 +149,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 autotrigger = true,
             })
 
-            vim.cmd [[set completeopt+=menuone,noinsert,popup]]
+            vim.cmd [[set completeopt+=fuzzy,menuone,noselect,popup]]
 
             vim.keymap.set({ 'i', 's' }, '<C-f>', function()
                 if vim.snippet.active({ direction = 1 }) then
@@ -163,20 +164,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
             end, { expr = false, silent = true })
 
             vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-                if vim.fn.pumvisible() == 1 then
+                if vim.fn.pumvisible() == 1 and vim.fn.complete_info().selected == -1 then
+                    return "<C-n><C-y>"
+                elseif vim.fn.pumvisible() == 1 then
                     return "<C-y>"
-                else
-                    return "<Tab>"
                 end
+                return "<Tab>"
             end, { expr = true, silent = true })
 
-            vim.keymap.set({ 'i', 's' }, '<CR>', function()
-                if vim.fn.pumvisible() == 1 then
-                    return "<C-e><CR>"
-                else
-                    return "<CR>"
-                end
-            end, { expr = true, silent = true, noremap = true })
+            -- This conflicts with nvim-autopairs, idk how to do it correctly
+            -- vim.keymap.set({ 'i', 's' }, '<CR>', function()
+            --     if vim.fn.pumvisible() == 1 then
+            --         return "<C-e><CR>"
+            --     end
+            --     return "<CR>"
+            -- end, { expr = true, silent = true, noremap = true })
         end
     end
 })

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import subprocess
+from pathlib import Path
 
 def format_time(seconds_total):
     seconds = seconds_total % 60
@@ -15,10 +16,10 @@ def format_time(seconds_total):
 
 command = "qlop -rtM"
 
-qlop_anwer = subprocess.run(command, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.decode()
+qlop_answer = subprocess.run(command, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.decode()
 
-if qlop_anwer != '\n':
-    words = qlop_anwer.split()
+if qlop_answer != '':
+    words = qlop_answer.split()
 
     seconds_eta = words[-1]
 

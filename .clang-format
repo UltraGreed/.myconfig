@@ -9,3 +9,12 @@ AllowShortCaseLabelsOnASingleLine: true
 AllowShortBlocksOnASingleLine: Empty
 AllowShortFunctionsOnASingleLine: Empty
 
+AlignAfterOpenBracket: true
+
+BreakBeforeBraces: Custom
+BreakBeforeBinaryOperators: NonAssignment
+BreakStringLiterals: false
+
+BraceWrapping: 
+  AfterFunction: true
+

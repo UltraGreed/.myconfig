@@ -47,7 +47,10 @@ return require('packer').startup(function(use)
         end
     }
 
-    use { 'nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' } }
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
     use 'theprimeagen/harpoon'
     use 'mbbill/undotree'
     use 'tpope/vim-fugitive'
@@ -125,4 +128,27 @@ return require('packer').startup(function(use)
     }
 
     use 'nvim-tree/nvim-web-devicons'
+
+    -- use {
+    --     'm4xshen/autoclose.nvim',
+    --     config = function()
+    --         require("autoclose").setup({
+    --             options = {
+    --                 pair_spaces = true,
+    --                 auto_indent = true,
+    --             }
+    --         })
+    --     end,
+    -- }
+
+
+    use {
+        "windwp/nvim-autopairs",
+        config = function()
+            require('nvim-autopairs').setup({
+                check_ts = true,
+                map_cr = true,
+            })
+        end
+    }
 end)
