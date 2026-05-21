@@ -44,6 +44,8 @@ vim.keymap.del('n', 'gri')
 vim.keymap.del('n', 'grt')
 vim.keymap.del('n', 'gO')
 
+-- Go to defition if there is only one location;
+-- Go to first definition and list others in quickfix list if there are many.
 local function gd_jump_first()
     local params = vim.lsp.util.make_position_params(0, "utf-16")
 
@@ -54,6 +56,10 @@ local function gd_jump_first()
         end
 
         if locations == nil then
+            return
+        end
+
+        if locations[1] == nil then
             return
         end
 
@@ -149,7 +155,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 autotrigger = true,
             })
 
-            vim.cmd [[set completeopt+=fuzzy,menuone,noselect,popup]]
+            vim.cmd [[set completeopt+=fuzzy,menuone,noinsert,popup]]
+            vim.cmd [[set pumheight=12]]
 
             vim.keymap.set({ 'i', 's' }, '<C-f>', function()
                 if vim.snippet.active({ direction = 1 }) then
@@ -173,12 +180,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
             end, { expr = true, silent = true })
 
             -- This conflicts with nvim-autopairs, idk how to do it correctly
-            -- vim.keymap.set({ 'i', 's' }, '<CR>', function()
-            --     if vim.fn.pumvisible() == 1 then
-            --         return "<C-e><CR>"
-            --     end
-            --     return "<CR>"
-            -- end, { expr = true, silent = true, noremap = true })
+            vim.keymap.set({ 'i', 's' }, '<CR>', function()
+                if vim.fn.pumvisible() == 1 then
+                    return "<C-e><CR>"
+                end
+                return "<CR>"
+            end, { expr = true, silent = true, noremap = true })
         end
     end
 })
