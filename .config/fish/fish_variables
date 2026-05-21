@@ -1,7 +1,0 @@
-# This file contains fish universal variable definitions.
-# VERSION: 3.0
-SETUVAR --export MANPAGER:nvim\x20\x2bMan\x21
-SETUVAR --export TERMINAL:alacritty
-SETUVAR WEBKIT_DISABLE_DMABUF_RENDERER:1
-SETUVAR __fish_initialized:4300
-SETUVAR fish_user_paths:/home/ultragreed/\x2elocal/bin\x1e/home/ultragreed/\x2elocal/scripts/
