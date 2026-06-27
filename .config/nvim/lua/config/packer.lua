@@ -7,8 +7,7 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.8',
-        -- or                            , branch = '0.1.x',
+        'nvim-telescope/telescope.nvim',
         requires = { 'nvim-lua/plenary.nvim' }
     }
     use {
@@ -49,8 +48,17 @@ return require('packer').startup(function(use)
 
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate'
+        run = ':TSUpdate',
+        branch = 'main',
     }
+
+    -- use {
+    --     'lewis6991/ts-install.nvim',
+    --     requires = 'nvim-treesitter/nvim-treesitter',
+    -- }
+
+    -- use { "nvim-treesitter/nvim-treesitter-context", }
+
     use 'theprimeagen/harpoon'
     use 'mbbill/undotree'
     use 'tpope/vim-fugitive'
@@ -63,8 +71,6 @@ return require('packer').startup(function(use)
     }
 
     use 'folke/zen-mode.nvim'
-
-    -- use { "nvim-treesitter/nvim-treesitter-context", }
 
     use 'eandrju/cellular-automaton.nvim'
 

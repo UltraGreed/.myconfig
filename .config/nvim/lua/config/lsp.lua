@@ -1,4 +1,4 @@
-vim.lsp.enable('luals')
+vim.lsp.enable('lua_ls')
 vim.lsp.enable('ruff')
 vim.lsp.enable('clangd')
 -- vim.lsp.enable('basedpyright')
@@ -43,6 +43,7 @@ vim.keymap.del('n', 'grr')
 vim.keymap.del('n', 'gri')
 vim.keymap.del('n', 'grt')
 vim.keymap.del('n', 'gO')
+vim.keymap.del('n', 'grx')
 
 -- Go to defition if there is only one location;
 -- Go to first definition and list others in quickfix list if there are many.
